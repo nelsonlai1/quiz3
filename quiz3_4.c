@@ -3,9 +3,11 @@
 
 uint64_t gcd64(uint64_t u, uint64_t v) {
     if (!u || !v) return u | v;
-    int shift = __builtin_ctz(v) ^ ((__builtin_ctz(u) ^ __builtin_ctz(v)) & -(__builtin_ctz(u) < __builtin_ctz(v)));
-    u = u >> __builtin_ctz(u);
-    v = v >>__builtin_ctz(v);
+    int ctzu = __builtin_ctz(u);
+    int ctzv = __builtin_ctz(v);
+    int shift = ctzv ^ ((ctzu ^ ctzv) & -(ctzu < ctzv));
+    u = u >> ctzu;
+    v = v >> ctzv;
     do {
         while (!(v & 1))
             v /= 2;
